@@ -59,7 +59,7 @@ CREATE TABLE category(
 CREATE TABLE discount(
     id SERIAL PRIMARY KEY,
     name TEXT NOT NULL UNIQUE,
-    discount_type TEXT NOT NULL CHECK (discount_type IN('percentage', 'fixed')),
+    discount_type TEXT NOT NULL CHECK (discount_type IN('percentage', 'fixed', 'shipping', 'category', 'other')),
     discount_value DECIMAL(10, 2) NOT NULL,
     start_at TIMESTAMP NOT NULL,
     end_at TIMESTAMP NOT NULL,
@@ -266,3 +266,42 @@ CREATE TABLE review(
 
 CREATE UNIQUE INDEX unique_product_review_per_user ON review(app_user_id, product_id) WHERE store_id IS NULL;
 CREATE UNIQUE INDEX unique_store_review_per_user ON review(app_user_id, store_id) WHERE product_id IS NULL;
+
+CREATE TABLE report(
+    id SERIAL PRIMARY KEY,
+    type TEXT NOT NULL CHECK(type IN ('product_issue', 'user_behavior', 'store_issue', 'order_issue', 'review_issue', 'technical_issue', 'other')),
+    target_type TEXT NOT NULL CHECK(target_type IN ('user', 'store', 'product')),
+    target_id INTEGER NOT NULL,
+    reported_by_type TEXT NOT NULL CHECK(reported_by_type IN ('user', 'seller')),
+    reported_by_id INTEGER NOT NULL,
+    priority TEXT NOT NULL CHECK(priority IN ('low', 'medium', 'high')),
+    status TEXT NOT NULL CHECK(status IN ('pending', 'in_review', 'resolved', 'dismissed')),
+    title TEXT NOT NULL,
+    description TEXT,
+    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE TICKET(
+    id SERIAL PRIMARY KEY,
+    type TEXT NOT NULL CHECK(type IN ('store_approval', 'product_approval', 'refund_request', 'account_verification', 'strike_appeal', 'moderation_review', 'other')),
+    open_by_type TEXT NOT NULL CHECK(reported_by_type IN ('user', 'seller')),
+    open_by_id INTEGER NOT NULL,
+    priority TEXT NOT NULL CHECK(priority IN ('low', 'medium', 'high')),
+    status TEXT NOT NULL CHECK(status IN ('pending', 'in_review', 'resolved', 'dismissed')),
+    title TEXT NOT NULL,
+    description TEXT,
+    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP    
+);
+
+/* 
+ALTER TABLE discount
+ADD COLUMN status TEXT NOT NULL CHECK(status IN ('active', 'paused', 'ended', 'upcoming'));
+
+ALTER TABLE discount
+ADD COLUMN scope TEXT NOT NULL CHECK(scope IN ('forced', 'optional'));
+
+ALTER TABLE discount
+ADD COLUMN description TEXT;
+*/
+
+
