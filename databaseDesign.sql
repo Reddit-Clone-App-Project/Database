@@ -308,6 +308,7 @@ ADD COLUMN description TEXT;
 CREATE TABLE ADMIN(
     id SERIAL PRIMARY KEY,
     email TEXT UNIQUE NOT NULL,
+    password TEXT NOT NULL,
     full_name TEXT NOT NULL,
     employee_img TEXT,
     date_of_birth DATE NOT NULL,
@@ -320,6 +321,7 @@ CREATE TABLE ADMIN(
 CREATE TABLE STORAGE(
     id SERIAL PRIMARY KEY,
     email TEXT NOT NULL,
+    password TEXT NOT NULL,
     shipping_unit TEXT NOT NULL,
     location TEXT NOT NULL,
     created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -331,6 +333,7 @@ CREATE TABLE STORAGE(
 CREATE TABLE SHIPPER(
     id SERIAL PRIMARY KEY,
     email TEXT UNIQUE NOT NULL,
+    password TEXT NOT NULL,
     full_name TEXT NOT NULL,
     employee_img TEXT,
     date_of_birth DATE NOT NULL,
