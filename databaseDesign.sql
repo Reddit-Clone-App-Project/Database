@@ -5,7 +5,7 @@ CREATE TABLE app_user(
     full_name TEXT NOT NULL,
     profile_img TEXT,
     date_of_birth DATE NOT NULL,
-    role TEXT NOT NULL CHECK (role IN ('buyer', 'seller', 'admin')),
+    role TEXT NOT NULL CHECK (role IN ('buyer', 'seller')),
     created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     is_active BOOLEAN NOT NULL DEFAULT true,
@@ -305,3 +305,39 @@ ADD COLUMN description TEXT;
 */
 
 
+CREATE TABLE ADMIN(
+    id SERIAL PRIMARY KEY,
+    email TEXT UNIQUE NOT NULL,
+    full_name TEXT NOT NULL,
+    employee_img TEXT,
+    date_of_birth DATE NOT NULL,
+    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    is_active BOOLEAN NOT NULL DEFAULT true,
+    last_login TIMESTAMP DEFAULT NULL
+)
+
+CREATE TABLE STORAGE(
+    id SERIAL PRIMARY KEY,
+    email TEXT NOT NULL,
+    shipping_unit TEXT NOT NULL,
+    location TEXT NOT NULL,
+    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    is_active BOOLEAN NOT NULL DEFAULT true,
+    last_login TIMESTAMP DEFAULT NULL
+)
+    
+CREATE TABLE SHIPPER(
+    id SERIAL PRIMARY KEY,
+    email TEXT UNIQUE NOT NULL,
+    full_name TEXT NOT NULL,
+    employee_img TEXT,
+    date_of_birth DATE NOT NULL,
+    shipping_unit TEXT NOT NULL,
+    storage_id SERIAL REFERENCES STORAGE(id) ON DELETE CASCADE,
+    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    is_active BOOLEAN NOT NULL DEFAULT true,
+    last_login TIMESTAMP DEFAULT NULL
+)
