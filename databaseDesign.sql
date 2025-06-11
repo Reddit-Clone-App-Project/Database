@@ -9,7 +9,9 @@ CREATE TABLE app_user(
     created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     is_active BOOLEAN NOT NULL DEFAULT true,
-    last_login TIMESTAMP DEFAULT NULL
+    last_login TIMESTAMP DEFAULT NULL,
+    phone_number TEXT UNIQUE,
+    nationality TEXT CHECK (nationality IN ('AF', 'AL', 'DZ', 'AR', 'AU', 'AT', 'BD', 'BE', 'BR', 'CA', 'CL', 'CN', 'CO', 'CZ', 'DK', 'EG', 'FI', 'FR', 'DE', 'GR', 'HK', 'HU', 'IN', 'ID', 'IE', 'IL', 'IT', 'JP', 'KR', 'MY', 'MX', 'NL', 'NZ', 'NG', 'NO', 'PK', 'PH', 'PL', 'PT', 'RU', 'SA', 'SG', 'ZA', 'ES', 'SE', 'CH', 'TH', 'TR', 'UA', 'AE', 'GB', 'US', 'VN'))
 );
 
 CREATE TABLE product(
