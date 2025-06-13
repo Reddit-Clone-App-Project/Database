@@ -124,7 +124,7 @@ CREATE TABLE payment(
 
 CREATE TABLE address(
     id SERIAL PRIMARY KEY,
-    app_user_id INTEGER NOT NULL REFERENCES app_user(id) ON DELETE CASCADE,
+    app_user_id INTEGER REFERENCES app_user(id) ON DELETE CASCADE,
     full_name TEXT NOT NULL,
     address_line1 TEXT NOT NULL,
     address_line2 TEXT NOT NULL,
