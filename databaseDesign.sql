@@ -34,6 +34,10 @@ CREATE TABLE store(
     profile_img TEXT,
     phone_number TEXT NOT NULL,
     email TEXT NOT NULL,
+    express_shipping BOOLEAN NOT NULL DEFAULT false,
+    fast_shipping BOOLEAN NOT NULL DEFAULT false,
+    economical_shipping BOOLEAN NOT NULL DEFAULT false,
+    bulky_shipping BOOLEAN NOT NULL DEFAULT false,
     created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     is_active BOOLEAN NOT NULL DEFAULT true
