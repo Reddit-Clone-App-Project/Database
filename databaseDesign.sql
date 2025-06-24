@@ -62,11 +62,32 @@ CREATE TABLE category(
     is_active BOOLEAN NOT NULL DEFAULT true
 );
 
+CREATE TABLE event(
+    id SERIAL PRIMARY KEY,
+    admin_id SERIAL REFERENCES admin(id) ON DELETE CASCADE,
+    title TEXT NOT NULL,
+    description TEXT NOT NULL,
+    image_url TEXT NOT NULL,
+    discount_min INTEGER NOT NULL,
+    discount_max INTEGER NOT NULL,
+    start_at TIMESTAMP NOT NULL,
+    end_at TIMESTAMP NOT NULL,
+    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE event_category(
+    event_id SERIAL REFERENCES event(id) ON DELETE CASCADE,
+    category_id SERIAL REFERENCES category(id) ON DELETE CASCADE,
+    PRIMARY KEY (event_id, category_id)
+);
+
 CREATE TABLE discount(
     id SERIAL PRIMARY KEY,
     name TEXT NOT NULL UNIQUE,
     discount_type TEXT NOT NULL CHECK (discount_type IN('percentage', 'fixed', 'shipping', 'category', 'other')),
     discount_value DECIMAL(10, 2) NOT NULL,
+    event_id SERIAL REFERENCES event(id) ON DELETE CASCADE,
     start_at TIMESTAMP NOT NULL,
     end_at TIMESTAMP NOT NULL,
     is_active BOOLEAN NOT NULL DEFAULT true
@@ -318,6 +339,7 @@ CREATE TABLE ADMIN(
     full_name TEXT NOT NULL,
     employee_img TEXT,
     date_of_birth DATE NOT NULL,
+    emp_role TEXT NOT NULL CHECK (emp_role IN ('super', 'normal')),
     created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     is_active BOOLEAN NOT NULL DEFAULT true,
