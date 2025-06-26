@@ -21,6 +21,7 @@ CREATE TABLE product(
     description TEXT,
     store_id INTEGER NOT NULL REFERENCES store(id) ON DELETE CASCADE,
     category_id INTEGER REFERENCES category(id) ON DELETE SET NULL,
+    attributes JSONB,
     created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     is_published BOOLEAN NOT NULL DEFAULT false,
@@ -57,6 +58,7 @@ CREATE TABLE category(
     parent_id INTEGER REFERENCES category(id) ON DELETE SET NULL,
     description TEXT,
     image_url TEXT,
+    attributes TEXT[],
     created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     is_active BOOLEAN NOT NULL DEFAULT true
